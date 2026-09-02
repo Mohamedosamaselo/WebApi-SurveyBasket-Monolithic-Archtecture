@@ -19,8 +19,8 @@ public static class ContractMapping
         };
     }
 
-    // from CreatePollResponse to poll
-    public static Poll MapToPoll(this CreatepollRequest poll)
+    // from CreatePollRequest to poll
+    public static Poll MapToPoll(this CreatePollRequest poll)
     {
         return new Poll()
         {

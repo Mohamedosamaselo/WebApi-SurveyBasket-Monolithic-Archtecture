@@ -9,7 +9,7 @@ public interface IPollService
 
     Task<Poll?> GetAsync(int id, CancellationToken cancellationToken = default);
 
-    Task<Poll> AddAsync(CreatepollRequest createpollRequest, CancellationToken cancellationToken = default);
+    Task<Poll> AddAsync(CreatePollRequest createPollRequest, CancellationToken cancellationToken = default);
 
     Task<bool> UpdateAsync(int id, EditPollRequest pollRequest, CancellationToken cancellationToken = default);
 

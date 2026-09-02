@@ -16,7 +16,8 @@ public static class DependencyInjection
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         Services.AddOpenApi();
 
-        Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()).AddFluentValidationAutoValidation();
+        Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+            .AddFluentValidationAutoValidation();
 
         // swagger
         Services.AddEndpointsApiExplorer();

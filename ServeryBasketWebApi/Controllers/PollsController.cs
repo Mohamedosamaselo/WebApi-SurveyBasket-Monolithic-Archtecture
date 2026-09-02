@@ -32,7 +32,7 @@ public class PollsController(IPollService pollService) : ControllerBase
 
     // Add Endpoint
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromBody] CreatepollRequest createPollRequest, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> AddAsync([FromBody] CreatePollRequest createPollRequest, CancellationToken cancellationToken = default)
     {
         var newPoll = await _pollService.AddAsync(createPollRequest, cancellationToken);
         return CreatedAtAction(nameof(GetAsync), new { id = newPoll.Id }, newPoll);

@@ -16,12 +16,13 @@ public class PollService(ApplicationDbContext context) : IPollService
     public async Task<Poll?> GetAsync(int id, CancellationToken cancellationToken = default)
         => await _context.Polls.FindAsync(id);
 
-    public async Task<Poll> AddAsync(CreatepollRequest pollRequest, CancellationToken cancellationToken = default)
+    public async Task<Poll> AddAsync(CreatePollRequest pollRequest, CancellationToken cancellationToken = default)
     {
-        await _context.AddAsync(pollRequest);
-        await _context.SaveChangesAsync();
+        var entity = pollRequest.MapToPoll();
+        await _context.AddAsync(entity, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
 
-        return pollRequest.MapToPoll();
+        return entity;
     }
 
     public async Task<bool> UpdateAsync(int id, EditPollRequest poll, CancellationToken cancellationToken = default)
