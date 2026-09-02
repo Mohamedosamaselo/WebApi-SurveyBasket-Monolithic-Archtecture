@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SurveyBasketWebApi.Contracts.Dtos.Request;
-using SurveyBasketWebApi.Contracts.Response;
 using SurveyBasketWebApi.Interfaces;
 using SurveyBasketWebApi.Mapping;
 using SurveyBasketWebApi.Persistence;

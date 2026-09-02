@@ -1,4 +1,5 @@
 using SurveyBasketWebApi;
+using SurveyBasketWebApi.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
