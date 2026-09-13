@@ -27,7 +27,7 @@ public static class DependencyInjection
 
         ConfigureDatabase(services, configuration);
 
-        ConfigureIdentity(services);
+        ConfigureAuthentication(services, configuration);
     }
 
     // ---------------------------
@@ -94,14 +94,14 @@ public static class DependencyInjection
     // ASP.NET Core Identity
     // ---------------------------
 
-    private static void ConfigureIdentity(
-        IServiceCollection services)
+    private static void ConfigureAuthentication(
+        IServiceCollection services,
+        IConfiguration configuration)
     {
-        services
-            //.AddIdentityApiEndpoints<ApplicationUser>()
-            .AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
-        //.AddDefaultTokenProviders();
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+        services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName)); // Bind JwtOptions from configuration
 
         services.AddAuthentication(options =>
         {
@@ -118,9 +118,9 @@ public static class DependencyInjection
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     // Set the signing key here (you should use a secure key)
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("QayFdiBLLPPJP3KdUxmorUE4U5jMmopkjmZYx3L2wn8")),
-                    ValidIssuer = "SurveyBasket",
-                    ValidAudience = "SurveyBasketUsers",
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
                 };
             })
             ;
