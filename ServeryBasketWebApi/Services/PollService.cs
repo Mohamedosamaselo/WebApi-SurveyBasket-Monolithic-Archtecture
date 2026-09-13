@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SurveyBasketWebApi.Contracts.Dtos.Request;
-using SurveyBasketWebApi.Interfaces;
-using SurveyBasketWebApi.Mapping;
-using SurveyBasketWebApi.Persistence;
+﻿using SurveyBasketWebApi.Contracts.Dtos.Polls;
+using SurveyBasketWebApi.Entities;
 
 namespace SurveyBasketWebApi.Services;
 

@@ -1,7 +1,6 @@
-﻿namespace SurveyBasketWebApi.Contracts.Dtos.Request;
+﻿namespace SurveyBasketWebApi.Contracts.Dtos.Polls;
 
-public record EditPollRequest(
-    int Id,
+public record CreatePollRequest(
     string Title,
     string Summary,
     bool IsPublished,

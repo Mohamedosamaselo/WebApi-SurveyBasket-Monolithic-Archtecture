@@ -3,10 +3,12 @@ using SurveyBasketWebApi.Contracts.Dtos.Polls;
 
 namespace SurveyBasketWebApi.Contracts.Validations.Polls;
 
-public class CreatePollRequestValidator : AbstractValidator<CreatePollRequest>
+public class EditPollRequestValidator : AbstractValidator<EditPollRequest>
 {
-    public CreatePollRequestValidator()
+    public EditPollRequestValidator()
     {
+        RuleFor(x => x.Id).GreaterThan(0).WithMessage("Id must be greater than 0.");
+
         RuleFor(x => x.Title).NotEmpty()
                              .Length(3, 100);
 

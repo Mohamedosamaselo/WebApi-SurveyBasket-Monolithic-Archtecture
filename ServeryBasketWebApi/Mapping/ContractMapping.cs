@@ -1,5 +1,5 @@
-﻿using SurveyBasketWebApi.Contracts.Dtos.Request;
-using SurveyBasketWebApi.Contracts.Response;
+﻿using SurveyBasketWebApi.Contracts.Dtos.Polls;
+using SurveyBasketWebApi.Entities;
 
 namespace SurveyBasketWebApi.Mapping;
 

@@ -1,5 +1,5 @@
-﻿using SurveyBasketWebApi.Contracts.Dtos.Request;
-using SurveyBasketWebApi.Contracts.Response;
+﻿using SurveyBasketWebApi.Contracts.Dtos.Polls;
+using SurveyBasketWebApi.Entities;
 
 namespace SurveyBasketWebApi.Interfaces;
 
@@ -15,5 +15,5 @@ public interface IPollService
 
     Task<bool> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default);
 
-    Task<bool> DeleteAsync(int id, Poll pollRequest, CancellationToken cancellationToken = default);
+    // Task<bool> DeleteAsync(int id, Poll pollRequest, CancellationToken cancellationToken = default);
 }

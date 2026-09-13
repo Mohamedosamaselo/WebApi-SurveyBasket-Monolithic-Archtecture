@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace SurveyBasketWebApi.Contracts.Response;
+namespace SurveyBasketWebApi.Contracts.Dtos.Polls;
 
 public class PollResponse()
 {

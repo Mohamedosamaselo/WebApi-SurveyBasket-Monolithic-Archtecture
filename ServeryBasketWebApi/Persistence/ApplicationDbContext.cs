@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SurveyBasketWebApi.Entities;
 using System.Reflection;
 
 namespace SurveyBasketWebApi.Persistence;

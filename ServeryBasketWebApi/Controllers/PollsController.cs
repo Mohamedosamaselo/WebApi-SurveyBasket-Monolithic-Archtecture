@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using SurveyBasketWebApi.Contracts.Dtos.Request;
-using SurveyBasketWebApi.Interfaces;
-using SurveyBasketWebApi.Mapping;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SurveyBasketWebApi.Contracts.Dtos.Polls;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace SurveyBasketWebApi.Controllers;
 
@@ -13,6 +13,7 @@ public class PollsController(IPollService pollService) : ControllerBase
 
     // GetAll Endpoint
     [HttpGet("GetAll")]
+    [Authorize]
     public async Task<IActionResult> GetAllAsync()
     {
         var polls = await _pollService.GetAllAsync();
@@ -59,15 +60,15 @@ public class PollsController(IPollService pollService) : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("Delete/{id:int}")]
-    public async Task<IActionResult> Delete([FromRoute] int id, [FromBody] Poll pollRequest, CancellationToken cancellationToken = default)
-    {
-        var deletededPoll = await _pollService.DeleteAsync(id, pollRequest, cancellationToken);
+    //  [HttpDelete("Delete/{id:int}")]
+    //public async Task<IActionResult> Delete([FromRoute] int id, [FromBody] Poll pollRequest, CancellationToken cancellationToken = default)
+    //{
+    //    var deletededPoll = await _pollService.DeleteAsync(id, pollRequest, cancellationToken);
 
-        if (!deletededPoll)
+    //    if (!deletededPoll)
 
-            return NotFound();
+    //        return NotFound();
 
-        return NoContent();
-    }
+    //    return NoContent();
+    //}
 };
