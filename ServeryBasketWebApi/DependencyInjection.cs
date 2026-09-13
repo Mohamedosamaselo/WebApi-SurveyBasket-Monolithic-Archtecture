@@ -8,6 +8,7 @@ using SurveyBasketWebApi.Authentication;
 using SurveyBasketWebApi.Entities;
 using SurveyBasketWebApi.Services;
 using System.Reflection;
+using System.Text;
 
 namespace SurveyBasketWebApi;
 
@@ -94,14 +95,14 @@ public static class DependencyInjection
     // ASP.NET Core Identity
     // ---------------------------
 
-    private static void ConfigureAuthentication(
-        IServiceCollection services,
-        IConfiguration configuration)
+    private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
     {
         services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName)); // Bind JwtOptions from configuration
+
+        var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
 
         services.AddAuthentication(options =>
         {
@@ -118,9 +119,9 @@ public static class DependencyInjection
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     // Set the signing key here (you should use a secure key)
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtSettings?.Key!)),
+                    ValidIssuer = jwtSettings?.Issuer,
+                    ValidAudience = jwtSettings?.Audience,
                 };
             })
             ;
