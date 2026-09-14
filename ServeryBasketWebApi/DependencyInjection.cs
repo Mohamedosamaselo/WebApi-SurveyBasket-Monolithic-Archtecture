@@ -97,12 +97,17 @@ public static class DependencyInjection
 
     private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
     {
+        //configure Identity Package with ApplicationUser and IdentityRole
         services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName)); // Bind JwtOptions from configuration
+        //services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName)); // Bind JwtOptions without validation from configuration
+        services.AddOptions<JwtOptions>()
+                .BindConfiguration(JwtOptions.SectionName)
+                .ValidateDataAnnotations() // Validate the options using data annotations
+                .ValidateOnStart(); // Validate the options on application startup
 
-        var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
+        var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>(); // get jwtSettings
 
         services.AddAuthentication(options =>
         {
@@ -126,7 +131,7 @@ public static class DependencyInjection
             })
             ;
 
-        services.AddSingleton<IJwtProvider, JwtProvider>();
+        services.AddSingleton<IJwtProvider, JwtProvider>(); // conf JwtProvider as singleton because it doesn't have any state and can be shared across requests
 
         services.AddScoped<IAuthService, AuthService>();
     }
