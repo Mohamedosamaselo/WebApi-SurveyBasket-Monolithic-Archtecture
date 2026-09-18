@@ -14,7 +14,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     public async Task<IActionResult> Login(loginRequest request,
         CancellationToken cancellationToken = default)
     {
-        var AuthResult = await _authService.LoginAsync(request.Email, request.Password, cancellationToken);
+        var AuthResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
 
         return AuthResult is null ? BadRequest("Invalid Email/Password") : Ok(AuthResult);
     }

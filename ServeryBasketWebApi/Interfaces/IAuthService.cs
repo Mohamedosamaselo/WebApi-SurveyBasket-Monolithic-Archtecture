@@ -4,7 +4,7 @@ namespace SurveyBasketWebApi.Interfaces;
 
 public interface IAuthService
 {
-    Task<AuthReponse?> LoginAsync(string email,
+    Task<AuthReponse?> GetTokenAsync(string email,
                                   string password,
-                                     CancellationToken cancellationToken = default);
+                                  CancellationToken cancellationToken = default);
 }
