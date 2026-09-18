@@ -16,7 +16,7 @@ public class ApplicationUserConfigurations : IEntityTypeConfiguration<Applicatio
                 .HasMaxLength(100).IsRequired();
 
         builder.OwnsMany(x => x.RefreshTokens)
-            .ToTable("RefreshTokens")
+            .ToTable("RefreshTokens") // to change name of table
             .WithOwner()
             .HasForeignKey("UserId");
     }

@@ -7,5 +7,6 @@ public sealed class ApplicationUser : IdentityUser
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
 
-    public List<refreshToken> RefreshTokens { get; set; } = [];
+    // navigational properties[ every user has list of RefreshTokens ]
+    public List<RefreshToken> RefreshTokens { get; set; } = [];
 }

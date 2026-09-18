@@ -13,12 +13,13 @@ public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
     public async Task<(string Token, int ExpiresIn)> GenerateTokenAsync(ApplicationUser user)
     {
         //1- set claims
-        Claim[] claims = [
-            new (JwtRegisteredClaimNames.Sub, user.Id),
-            new (JwtRegisteredClaimNames.Email, user.Email!),
-            new (JwtRegisteredClaimNames.GivenName, user.FirstName),
-            new (JwtRegisteredClaimNames.FamilyName, user.LastName),
-            new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        Claim[] claims =
+            [
+                new (JwtRegisteredClaimNames.Sub, user.Id),
+                new (JwtRegisteredClaimNames.Email, user.Email!),
+                new (JwtRegisteredClaimNames.GivenName, user.FirstName),
+                new (JwtRegisteredClaimNames.FamilyName, user.LastName),
+                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             ];
 
         //2- set SecurityKey and SigningCredentials
@@ -40,5 +41,32 @@ public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
             );
 
         return (Token: new JwtSecurityTokenHandler().WriteToken(token), ExpiresIn: _jwtOptions.ExpiryMinutes * 60);
+    }
+
+    public string? ValidateToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var symetricKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_jwtOptions.Key)); // Replace with your secret key
+
+        try
+        {
+            tokenHandler.ValidateToken(token, new TokenValidationParameters()
+            {
+                IssuerSigningKey = symetricKey,
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+
+            return jwtToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
