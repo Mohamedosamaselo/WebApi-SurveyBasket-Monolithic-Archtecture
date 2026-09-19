@@ -10,7 +10,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     private readonly IAuthService _authService = authService;
 
     // login Endpoint
-    [HttpPost("")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(loginRequest request,
         CancellationToken cancellationToken = default)
     {
