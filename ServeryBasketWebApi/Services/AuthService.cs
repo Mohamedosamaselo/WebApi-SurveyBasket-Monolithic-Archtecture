@@ -105,6 +105,28 @@ public class AuthService(UserManager<ApplicationUser> userManager, IJwtProvider 
                              );
     }
 
+    public async Task<bool> RevokeRefreshTokenAsync(string token, string refresfToken, CancellationToken cancellationToken = default)
+    {
+        var userId = _jwtProvider.ValidateToken(token);
+        if (userId is null) return false;
+
+        //2- check on User in Database
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null) return false;
+
+        //3- Get RefreshToken of user that match with RefreshToken Paramter
+        var userRefreshToken = user.RefreshTokens.FirstOrDefault(x => x.Token == refresfToken && x.IsActive);
+        if (userRefreshToken is null) return false;
+
+        //4- Revoke userRefreshToken
+        userRefreshToken.RevokedOn = DateTime.UtcNow;
+
+        //5- update UsersTable
+        await _userManager.UpdateAsync(user);
+
+        return true;
+    }
+
     #region Helpers Method
 
     private static string GenerateRefreshToken()
